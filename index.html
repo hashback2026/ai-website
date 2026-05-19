@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>KitchenLux - Premium Kitchen Appliances</title>
+
+  <style>
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+      font-family:Arial, Helvetica, sans-serif;
+    }
+
+    body{
+      background:#f8f8f8;
+      color:#222;
+    }
+
+    header{
+      background:#111;
+      color:white;
+      padding:20px 8%;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      position:sticky;
+      top:0;
+      z-index:1000;
+    }
+
+    .logo{
+      font-size:30px;
+      font-weight:bold;
+      color:#ffb703;
+    }
+
+    nav a{
+      color:white;
+      text-decoration:none;
+      margin-left:25px;
+      transition:0.3s;
+    }
+
+    nav a:hover{
+      color:#ffb703;
+    }
+
+    /* Banner Slider */
+
+    .slider{
+      width:100%;
+      height:500px;
+      overflow:hidden;
+      position:relative;
+    }
+
+    .slides{
+      display:flex;
+      width:300%;
+      height:100%;
+      animation:slide 15s infinite;
+    }
+
+    .slide{
+      width:100%;
+      flex-shrink:0;
+      position:relative;
+    }
+
+    .slide img{
+      width:100%;
+      height:500px;
+      object-fit:cover;
+    }
+
+    .caption{
+      position:absolute;
+      top:50%;
+      left:10%;
+      transform:translateY(-50%);
+      color:white;
+      background:rgba(0,0,0,0.5);
+      padding:20px;
+      border-radius:10px;
+    }
+
+    .caption h1{
+      font-size:50px;
+      margin-bottom:10px;
+    }
+
+    @keyframes slide{
+      0%{transform:translateX(0);}
+      30%{transform:translateX(0);}
+      35%{transform:translateX(-100%);}
+      65%{transform:translateX(-100%);}
+      70%{transform:translateX(-200%);}
+      100%{transform:translateX(-200%);}
+    }
+
+    /* Products */
+
+    .section-title{
+      text-align:center;
+      margin:50px 0 20px;
+      font-size:40px;
+      color:#222;
+    }
+
+    .products{
+      width:90%;
+      margin:auto;
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+      gap:25px;
+      margin-bottom:60px;
+    }
+
+    .product{
+      background:white;
+      border-radius:15px;
+      overflow:hidden;
+      box-shadow:0 5px 15px rgba(0,0,0,0.1);
+      transition:0.3s;
+    }
+
+    .product:hover{
+      transform:translateY(-5px);
+    }
+
+    .product img{
+      width:100%;
+      height:250px;
+      object-fit:cover;
+    }
+
+    .product-info{
+      padding:20px;
+    }
+
+    .product-info h3{
+      margin-bottom:10px;
+    }
+
+    .price{
+      color:#ff6600;
+      font-size:22px;
+      margin-bottom:15px;
+      font-weight:bold;
+    }
+
+    .btn{
+      background:#111;
+      color:white;
+      border:none;
+      padding:12px 18px;
+      cursor:pointer;
+      border-radius:8px;
+      transition:0.3s;
+    }
+
+    .btn:hover{
+      background:#ff6600;
+    }
+
+    /* Cart */
+
+    .cart{
+      position:fixed;
+      right:20px;
+      bottom:20px;
+      width:320px;
+      background:white;
+      border-radius:15px;
+      box-shadow:0 5px 20px rgba(0,0,0,0.2);
+      padding:20px;
+      z-index:1000;
+    }
+
+    .cart h2{
+      margin-bottom:15px;
+    }
+
+    .cart-item{
+      display:flex;
+      justify-content:space-between;
+      margin-bottom:10px;
+    }
+
+    .total{
+      margin-top:15px;
+      font-size:20px;
+      font-weight:bold;
+    }
+
+    footer{
+      background:#111;
+      color:white;
+      text-align:center;
+      padding:25px;
+      margin-top:40px;
+    }
+
+    /* Popup */
+
+    .popup{
+      position:fixed;
+      top:0;
+      left:0;
+      width:100%;
+      height:100vh;
+      background:rgba(0,0,0,0.7);
+      display:flex;
+      justify-content:center;
+      align-items:center;
+      z-index:9999;
+    }
+
+    .popup-content{
+      background:white;
+      width:90%;
+      max-width:450px;
+      padding:40px;
+      text-align:center;
+      border-radius:15px;
+      animation:popup 0.5s ease;
+    }
+
+    .popup-content h1{
+      margin-bottom:15px;
+      color:#111;
+    }
+
+    .popup-content p{
+      margin-bottom:20px;
+      color:#555;
+    }
+
+    @keyframes popup{
+      from{
+        transform:scale(0.7);
+        opacity:0;
+      }
+      to{
+        transform:scale(1);
+        opacity:1;
+      }
+    }
+
+    .close-btn{
+      background:#ff6600;
+      color:white;
+      border:none;
+      padding:12px 20px;
+      border-radius:8px;
+      cursor:pointer;
+    }
+
+  </style>
+</head>
+
+<body>
+
+  <!-- Popup -->
+  <div class="popup" id="popup">
+    <div class="popup-content">
+      <h1>Welcome to KitchenLux</h1>
+      <p>
+        Discover premium kitchen appliances designed to make your cooking smarter and easier.
+      </p>
+      <button class="close-btn" onclick="closePopup()">Start Shopping</button>
+    </div>
+  </div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">KitchenLux</div>
+
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">Products</a>
+      <a href="#">Cart</a>
+      <a href="#">Contact</a>
+    </nav>
+  </header>
+
+  <!-- Slider -->
+  <section class="slider">
+    <div class="slides">
+
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1556911220-bff31c812dba?q=80&w=1600&auto=format&fit=crop" alt="">
+        <div class="caption">
+          <h1>Modern Kitchen Appliances</h1>
+          <p>Upgrade your kitchen with luxury appliances.</p>
+        </div>
+      </div>
+
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1586201375761-83865001e31c?q=80&w=1600&auto=format&fit=crop" alt="">
+        <div class="caption">
+          <h1>Smart Cooking Solutions</h1>
+          <p>Premium quality for modern homes.</p>
+        </div>
+      </div>
+
+      <div class="slide">
+        <img src="https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1600&auto=format&fit=crop" alt="">
+        <div class="caption">
+          <h1>Exclusive Discounts</h1>
+          <p>Shop the latest kitchen technology today.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Products -->
+  <h2 class="section-title">Featured Appliances</h2>
+
+  <section class="products">
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1570222094114-d054a817e56b?q=80&w=1000&auto=format&fit=crop" alt="">
+      <div class="product-info">
+        <h3>Smart Blender</h3>
+        <div class="price">$120</div>
+        <button class="btn" onclick="addToCart('Smart Blender',120)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1585659722983-3a675dabf23d?q=80&w=1000&auto=format&fit=crop" alt="">
+      <div class="product-info">
+        <h3>Luxury Microwave</h3>
+        <div class="price">$250</div>
+        <button class="btn" onclick="addToCart('Luxury Microwave',250)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1586201375754-1421e0aa2c86?q=80&w=1000&auto=format&fit=crop" alt="">
+      <div class="product-info">
+        <h3>Premium Coffee Maker</h3>
+        <div class="price">$180</div>
+        <button class="btn" onclick="addToCart('Premium Coffee Maker',180)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+    <div class="product">
+      <img src="https://images.unsplash.com/photo-1520607162513-77705c0f0d4a?q=80&w=1000&auto=format&fit=crop" alt="">
+      <div class="product-info">
+        <h3>Electric Cooker</h3>
+        <div class="price">$340</div>
+        <button class="btn" onclick="addToCart('Electric Cooker',340)">
+          Add to Cart
+        </button>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Cart -->
+  <div class="cart">
+    <h2>Shopping Cart</h2>
+
+    <div id="cart-items"></div>
+
+    <div class="total">
+      Total: $<span id="total">0</span>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2026 KitchenLux. All Rights Reserved.</p>
+  </footer>
+
+  <script>
+
+    let cart = [];
+    let total = 0;
+
+    function addToCart(product, price){
+
+      cart.push({product, price});
+      total += price;
+
+      updateCart();
+    }
+
+    function updateCart(){
+
+      const cartItems = document.getElementById("cart-items");
+      cartItems.innerHTML = "";
+
+      cart.forEach(item => {
+
+        const div = document.createElement("div");
+        div.classList.add("cart-item");
+
+        div.innerHTML = `
+          <span>${item.product}</span>
+          <span>$${item.price}</span>
+        `;
+
+        cartItems.appendChild(div);
+      });
+
+      document.getElementById("total").innerText = total;
+    }
+
+    function closePopup(){
+      document.getElementById("popup").style.display = "none";
+    }
+
+    // Show popup every refresh/open
+    window.onload = function(){
+      document.getElementById("popup").style.display = "flex";
+    }
+
+  </script>
+
+</body>
+</html>
